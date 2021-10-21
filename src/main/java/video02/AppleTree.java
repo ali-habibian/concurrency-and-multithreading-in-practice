@@ -1,5 +1,6 @@
 package video02;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class AppleTree {
@@ -21,12 +22,26 @@ public class AppleTree {
 
     public int pickApples(String workerName) {
         try {
-            System.out.printf("%s started picking apples from %s \n", workerName, treeLabel);
+//            System.out.printf("%s started picking apples from %s \n", workerName, treeLabel);
             TimeUnit.SECONDS.sleep(1);
             System.out.printf("%s picked %d \uD83C\uDF4Fs from %s \n", workerName, numberOfApples, treeLabel);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return numberOfApples;
+    }
+
+    public int pickApples() {
+        return pickApples(toLabel(Thread.currentThread().getName()));
+    }
+
+    private String toLabel(String threadName) {
+        HashMap<String, String> threadNameToLabel = new HashMap<>();
+        threadNameToLabel.put("ForkJoinPool.commonPool-worker-1", "Alice");
+        threadNameToLabel.put("ForkJoinPool.commonPool-worker-2", "Bob");
+        threadNameToLabel.put("ForkJoinPool.commonPool-worker-3", "Carol");
+        threadNameToLabel.put("ForkJoinPool.commonPool-worker-4", "Dan");
+
+        return threadNameToLabel.getOrDefault(threadName, threadName);
     }
 }
